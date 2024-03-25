@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Todo App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #0066cc;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        span {
+            flex-grow: 1;
+        }
+
+        a {
+            margin-left: 10px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Todos</h1>
+    <ul>
+        {% for todo in todos %}
+            <li>
+                   <input type="checkbox" name="done" {% if todo['done'] %} checked {% endif %} disabled onchange="this.form.submit()">
+                   <span {% if todo['done'] %} style="text-decoration: line-through" {% endif %}>{{ todo['task'] }} </span>
+                   <a href="{{url_for('check',index=loop.index0) }}">Check</a>
+                   <a href="{{url_for('edit',index=loop.index0) }}">Edit</a>
+                   <a href="{{url_for('delete',index=loop.index0) }}">Delete</a>
+
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="{{ url_for('add') }}" method="post">
+        <input type="text" name="todo">
+        <button type="submit">Add Todo</button>
+    </form>
+</body>
+</html>
